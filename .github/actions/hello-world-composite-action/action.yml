@@ -18,4 +18,16 @@ runs:
       run: echo "::set-output name=random-id::$(echo $RANDOM)"
       shell: bash
     - run: echo "${{ github.action_path }}" >> $GITHUB_PATH
-      shell: bash          
+      shell: bash 
+  
+ hello_world_job2:
+    runs-on: ubuntu-latest
+    name: A job2 to say hello
+    steps:
+      - uses: actions/checkout@v2
+      - id: hello-world
+        uses: ./.github/actions/hello-world-composite-action
+        with:
+          who-to-greet: 'Mona the Octocat from composite action'
+      - run: echo random-number from composite action ${{ steps.hello-world.outputs.random-number }}
+        shell: bash
